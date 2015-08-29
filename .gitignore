@@ -1,5 +1,5 @@
 __output/*
-compile.show
+compile.sh
 deploy.sh
 rgbpc.zip
 device_id
