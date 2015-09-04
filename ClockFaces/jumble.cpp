@@ -1,5 +1,12 @@
 #ifdef FACE_JUMBLE
 
+// #define FACE_JUMBLE_NUMBER	TOTAL_FACE_COUNT
+
+#define TOTAL_FACE_COUNT_NEW	TOTAL_FACE_COUNT + 1
+#undef TOTAL_FACE_COUNT
+#define TOTAL_FACE_COUNT	TOTAL_FACE_COUNT_NEW
+#undef TOTAL_FACE_COUNT_NEW
+
 //show time and date and use a random jumble of letters transition each time the time changes.
 void jumble() {
 

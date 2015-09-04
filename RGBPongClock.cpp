@@ -46,7 +46,7 @@
 extern char* itoa(int a, char* buffer, unsigned char radix);
 
 
-#define		RGBPCversion	"V1.03g5"
+#define		RGBPCversion	"V1.03g __DATE__ __TIME__"
 
 #ifdef DEBUGME
 	#define DEBUGp(message)		Serial.print(message)
@@ -119,7 +119,7 @@ RGBmatrixPanel matrix(A, B, C, CLK, LAT, OE, true);
 
 int mode_changed = 0;			// Flag if mode changed.
 bool mode_quick = false;		// Quick weather display
-int clock_mode = 0;				// Default clock mode (1 = pong)
+int clock_mode = 0;			// Default clock mode (1 = pong)
 uint16_t showClock = 300;		// Default time to show a clock face
 unsigned long modeSwitch;
 unsigned long updateCTime;		// 24hr timer for resyncing cloud time
@@ -165,6 +165,8 @@ void bgProcess();
 #define FACE_NORMAL		+
 #define FACE_DATE		+
 
+#define TOTAL_FACE_COUNT	0
+
 #ifdef FACE_WEATHER
 	#include "weather.cpp"
 #endif
@@ -178,6 +180,7 @@ void bgProcess();
 #endif
 
 #ifdef FACE_MARQUEE
+	//#define FACE_MARQUEE_NUMBER
 	#include "marquee.cpp"
 #endif
 
@@ -231,6 +234,12 @@ void setup() {
 	//Particle.variable("DewPoint", &dhtDewPoint, DOUBLE);
 	//Particle.variable("dhtError", &dhtError, STRING);
 	//Particle.variable("dhtTS", &dhtTimestamp, INT);
+
+
+#ifdef FACE_MARQUEE
+	// Allow a user to call a function and post their own marquee message
+	Particle.function("marquee", marqueeMsg);
+#endif
 
 	Particle.function("setMode", setMode);		// Receive mode commands
 #ifdef FACE_WEATHER
@@ -312,7 +321,9 @@ void loop(){
 #endif
 
 
-	if (millis() - modeSwitch > 300000UL) {	//Switch modes every 5 mins
+	// Make it check for mode_changed==0, otherwise it may change the mode to a different one
+	// in case the user "manually" triggered a mode change.
+	if (mode_changed==0 && millis() - modeSwitch > 300000UL) {	//Switch modes every 5 mins
 		clock_mode++;
 		mode_changed = 1;
 		modeSwitch = millis();
@@ -321,43 +332,53 @@ void loop(){
 		DEBUGp("Switch mode to ");
 		DEBUGpln(clock_mode);
 	}
+	
+	if(mode_changed==1)
+		mode_changed = 0;
 
 	DEBUGp("in loop ");
 	DEBUGpln(millis());
 	//reset clock type clock_mode
 	switch (clock_mode){
-	case 0:
 #ifdef FACE_NORMAL
+	// case FACE_NORMAL_NUMBER:
+	case 0:
 		normal_clock();
 		break;
 #endif
-	case 1:
 #ifdef FACE_PONG
+	// case FACE_PONG_NUMBER:
+	case 1:
 		pong();
 		break;
 #endif
-	case 2:
 #ifdef FACE_WORDCLOCK
+	// case FACE_WORDCLOCK_NUMBER:
+	case 2:
 		word_clock();
 		break;
 #endif
-	case 3:
 #ifdef FACE_JUMBLE
+	// case FACE_JUMBLE_NUMBER:
+	case 3:
 		jumble();
 		break;
 #endif
-	case 4:
 #ifdef FACE_FFT
+	// case FACE_FFT_NUMBER:
+	case 4:
 		spectrumDisplay();
 		break;
 #endif
-	case 5:
 #ifdef FACE_PLASMA
+	// case FACE_PLASMA_NUMBER:
+	case 5:
 		plasma();
 		break;
 #endif
-	case 6:
 #ifdef FACE_MARQUEE
+	// case FACE_MARQUEE_NUMBER:
+	case 6:
 		marquee();
 		break;
 #endif
@@ -383,7 +404,7 @@ void loop(){
 	}
 	else {
 		//the mode has changed, so don't bother showing the date, just go to the new mode.
-		mode_changed = 0; //reset mdoe flag.
+		//mode_changed = 0; //reset mdoe flag.
 	}
 
 	bgProcess();

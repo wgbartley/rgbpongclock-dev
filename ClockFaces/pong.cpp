@@ -1,5 +1,12 @@
 #ifdef FACE_PONG
 
+// #define FACE_PONG_NUMBER	TOTAL_FACE_COUNT
+
+#define TOTAL_FACE_COUNT_NEW	TOTAL_FACE_COUNT + 1
+#undef TOTAL_FACE_COUNT
+#define TOTAL_FACE_COUNT	TOTAL_FACE_COUNT_NEW
+#undef TOTAL_FACE_COUNT_NEW
+
 #define BAT1_X 2                         // Pong left bat x pos (this is where the ball collision occurs, the bat is drawn 1 behind these coords)
 #define BAT2_X 28
 

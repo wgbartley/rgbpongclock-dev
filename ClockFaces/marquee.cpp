@@ -1,12 +1,30 @@
 #ifdef FACE_MARQUEE
 
+#define FACE_MARQUEE_NUMBER	TOTAL_FACE_COUNT
+
+#define TOTAL_FACE_COUNT_NEW	TOTAL_FACE_COUNT + 1
+#undef TOTAL_FACE_COUNT
+#define TOTAL_FACE_COUNT	TOTAL_FACE_COUNT_NEW
+#undef TOTAL_FACE_COUNT_NEW
+
 void marquee();
 void scrollBigMessage(char *m);
 void scrollMessage(char* top, char* bottom ,uint8_t top_font_size,uint8_t bottom_font_size, uint16_t top_color, uint16_t bottom_color);
 
+		//   1234567890123456789012345678901234567890
+char botmLine[40] = ". . . . . . . . . . . . . . . . . . . .";
+
+// Custom marquee message for bottom line
+int marqueeMsg(String params) {
+	params.toCharArray(botmLine, 40);
+	clock_mode = 6;
+	mode_changed = 1;
+	return 1;
+}
+
+
 void marquee() {
 	char topLine[40] = {""};
-	char botmLine[40] = "BOTTOM LINE GOES HERE";
 	String tFull;
 
 	//for (int show = 0; show < SHOWCLOCK ; show++) {

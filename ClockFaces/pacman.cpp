@@ -1,5 +1,12 @@
 #ifdef FACE_PACMAN
 
+// #define FACE_PACMAN_NUMBER	TOTAL_FACE_COUNT
+
+#define TOTAL_FACE_COUNT_NEW	TOTAL_FACE_COUNT + 1
+#undef TOTAL_FACE_COUNT
+#define TOTAL_FACE_COUNT	TOTAL_FACE_COUNT_NEW
+#undef TOTAL_FACE_COUNT_NEW
+
 int powerPillEaten = 0;
 
 void pacClear();

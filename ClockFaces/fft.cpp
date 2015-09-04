@@ -1,5 +1,12 @@
 #ifdef FACE_FFT
 
+// #define FACE_FFT_NUMBER		TOTAL_FACE_COUNT
+
+#define TOTAL_FACE_COUNT_NEW	TOTAL_FACE_COUNT + 1
+#undef TOTAL_FACE_COUNT
+#define TOTAL_FACE_COUNT	TOTAL_FACE_COUNT_NEW
+#undef TOTAL_FACE_COUNT_NEW
+
 /************  FFT definitions **********/
 // Define MIC input pin
 #define MIC A5			// A7 for Core, A5 for Photon
