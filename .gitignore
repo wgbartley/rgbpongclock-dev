@@ -1,6 +1,1 @@
-__output/*
-compile.sh
-deploy.sh
-rgbpc.zip
-device_id
-verify.sh
+__archive/
