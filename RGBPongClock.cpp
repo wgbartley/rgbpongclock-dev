@@ -46,7 +46,7 @@
 extern char* itoa(int a, char* buffer, unsigned char radix);
 
 
-#define		RGBPCversion	"V1.03g __DATE__ __TIME__"
+#define		RGBPCversion	"V1.03g"
 
 #ifdef DEBUGME
 	#define DEBUGp(message)		Serial.print(message)
@@ -332,7 +332,7 @@ void loop(){
 		DEBUGp("Switch mode to ");
 		DEBUGpln(clock_mode);
 	}
-	
+
 	if(mode_changed==1)
 		mode_changed = 0;
 
