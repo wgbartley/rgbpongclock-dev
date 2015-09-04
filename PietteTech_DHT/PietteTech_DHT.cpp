@@ -22,7 +22,7 @@
 /*
     Timing of DHT22 SDA signal line after MCU pulls low for 1ms
     https://github.com/mtnscott/Spark_DHT/AM2302.pdf
- 
+
   - - - -            -----           -- - - --            ------- - -
          \          /     \         /  \      \          /
           +        /       +       /    +      +        /
@@ -30,7 +30,7 @@
             ------           -----        -- - --------
  ^        ^                ^                   ^          ^
  |   Ts   |        Tr      |        Td         |    Te    |
- 
+
     Ts : Start time from MCU changing SDA from Output High to Tri-State (Hi-Z)
          Spec: 20-200us             Tested: < 65us
     Tr : DHT response to MCU controlling SDA and pulling Low and High to
@@ -74,7 +74,8 @@ void PietteTech_DHT::begin(uint8_t sigPin, uint8_t dht_type, void (*callback_wra
 int PietteTech_DHT::acquire() {
     // Check if sensor was read less than two seconds ago and return early
     // to use last reading
-    unsigned long currenttime = millis();
+    //unsigned long currenttime = millis();
+    unsigned long currenttime = Time.now();
     if (currenttime < _lastreadtime) {
         // there was a rollover
         _lastreadtime = 0;
@@ -83,7 +84,7 @@ int PietteTech_DHT::acquire() {
         // return last correct measurement, (this read time - last read time) < device limit
         return DHTLIB_ACQUIRED;
     }
-    
+
     if (_state == STOPPED || _state == ACQUIRED) {
         /*
          * Setup the initial state machine
