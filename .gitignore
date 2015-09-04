@@ -1,1 +1,4 @@
 __archive/
+deploy.sh
+device_id
+verify.sh
